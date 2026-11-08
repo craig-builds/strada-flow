@@ -1,0 +1,13 @@
+.env*
+!.env.example
+node_modules/
+.venv/
+.next/
+.vercel/
+*.pem
+*.key
+*.db
+*.sqlite
+*.bak
+out/
+Thumbs.db
