@@ -25,6 +25,15 @@ Python (FastAPI), Next.js and TypeScript, Vercel with private blob storage, Meta
 - Per-client data isolation enforced on every route; no secrets in the repo; the codebase and its history were scanned before this write-up.
 - Customers never see raw provider errors, keys or account identifiers.
 
+## Issues encountered & how I solved them
+- **Generic AI tools invented menu items and prices** that didn't exist, which is unacceptable for a business that sells from a fixed menu. I solved this by making the client's own onboarding data (menu, prices, services) the only source of truth the content generator can draw facts from, with AI-made product imagery always flagged for human review rather than auto-published.
+- **Free-tier AI models hit rate limits mid-task.** I built automatic fallbacks between providers so content generation keeps working on a quota failure instead of silently stalling for the client.
+- **Multi-client isolation was the single highest-risk area** — one business ever seeing another's data would end the product. I enforced per-client scoping on every data-access route, not just at the UI layer, and had the codebase and its git history scanned for leaked secrets before treating any environment as production-ready.
+- **Posting on a client's behalf through the Meta Graph API** meant failures (expired tokens, rejected media, rate limits) needed to be legible to a non-technical owner rather than surfaced as raw API errors, so every failure path is translated into plain-English status before it reaches the dashboard.
+
+## Result
+A working private beta, in real use by two paying-adjacent businesses, generating on-brand, price-accurate social content that owners approve before it goes out via the official Meta Graph API — with nothing published automatically and paid spend deliberately switched off until the beta proves itself.
+
 ## About this repository
 This is a **showcase repository**. Strada Flow is a commercial product in development, so the source is private. © Craig Chadley Johnson. All rights reserved. See [LICENSE](LICENSE).
 
